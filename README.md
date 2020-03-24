@@ -1,6 +1,6 @@
 # http4k + Heroku + Travis 
 
-[![build status](https://travis-ci.org/http4k/http4k-heroku-travis-example-app.svg?branch=master)](https://travis-ci.org/http4k/http4k-heroku-travis-example-app.svg?branch=master)
+[![Build Status](https://travis-ci.org/http4k/http4k-heroku-travis-example-app.svg?branch=master)](https://travis-ci.org/http4k/http4k-heroku-travis-example-app)
 
 This application gets deployed to Heroku on every push to GitHub
 
