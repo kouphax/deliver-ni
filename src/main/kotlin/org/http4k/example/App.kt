@@ -11,7 +11,7 @@ import org.http4k.server.asServer
 
 
 fun main(args: Array<String>) {
-    val app: HttpHandler = routes("/" bind GET to { Response(OK).body("Hello World!") })
+    val app: HttpHandler = routes("/" bind GET to { Response(OK).body("Hello Heroku!") })
 
     app.asServer(Jetty(args.port)).start().block()
 }
