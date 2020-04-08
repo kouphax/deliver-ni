@@ -5,7 +5,7 @@ import org.http4k.core.Method.GET
 import org.http4k.core.Response
 import org.http4k.core.Status.Companion.OK
 import org.http4k.core.with
-import org.http4k.format.Moshi.auto
+import org.http4k.format.Jackson.auto
 import org.http4k.routing.RoutingHttpHandler
 import org.http4k.routing.bind
 import org.http4k.routing.path
@@ -16,19 +16,19 @@ import se.yobriefca.deliveries.service.DeliveriesService
 
 class DeliveriesHandler(private val service: DeliveriesService = DatabaseDeliveriesService()) : Router {
 
-    private val placesLens = Body.auto<Array<Place>>().toLens()
+    private val body = Body.auto<Array<Place>>().toLens()
 
     override fun routes(): RoutingHttpHandler =
             routes(
                     "/" bind GET to {
                         Response(OK).with(
-                                placesLens of service.all()
+                                body of service.all()
                         )
                     },
                     "/{area}" bind GET to { request ->
                         val area = request.path("area")!!
                         Response(OK).with(
-                                placesLens of service.area(area)
+                                body of service.area(area)
                         )
                     })
 }

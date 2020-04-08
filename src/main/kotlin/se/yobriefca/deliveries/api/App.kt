@@ -8,7 +8,6 @@ import org.jetbrains.exposed.sql.Database
 
 private val Array<String>.port: Int get() = firstOrNull()?.toInt() ?: 5000
 
-
 fun main(args: Array<String>) {
     Database.connect(
             HikariDataSource(

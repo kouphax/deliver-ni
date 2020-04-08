@@ -9,7 +9,7 @@ interface DeliveriesService {
     fun area(area: String): Array<Place>
 }
 
-class DatabaseDeliveriesService: DeliveriesService {
+class DatabaseDeliveriesService : DeliveriesService {
     override fun all(): Array<Place> =
         transaction {
             Places.all().toTypedArray()

@@ -2,6 +2,7 @@
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.70"
     id("org.flywaydb.flyway") version "6.3.3"
+    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     application
 }
 
@@ -21,7 +22,6 @@ java {
     sourceCompatibility = JavaVersion.VERSION_11
 }
 
-
 repositories {
     mavenCentral()
     jcenter()
@@ -34,7 +34,9 @@ dependencies {
 
     implementation("org.http4k:http4k-core:3.242.0")
     implementation("org.http4k:http4k-server-jetty:3.242.0")
-    implementation("org.http4k:http4k-format-moshi:3.242.0")
+    implementation("org.http4k:http4k-format-jackson:3.242.0")
+    implementation("org.http4k:http4k-metrics-micrometer:3.242.0")
+    implementation("io.micrometer:micrometer-core:1.4.1")
 
     implementation("org.postgresql:postgresql:42.2.12")
     implementation("com.zaxxer:HikariCP:2.7.8")
@@ -61,4 +63,3 @@ tasks {
         dependsOn("installDist")
     }
 }
-
