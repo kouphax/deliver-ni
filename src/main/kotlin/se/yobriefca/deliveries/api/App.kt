@@ -10,15 +10,15 @@ private val Array<String>.port: Int get() = firstOrNull()?.toInt() ?: 5000
 
 fun main(args: Array<String>) {
     Database.connect(
-            HikariDataSource(
-                    HikariConfig().apply {
-                        driverClassName = "org.postgresql.Driver"
-                        jdbcUrl = "jdbc:postgresql://localhost/jamhughes"
-                        username = "jamhughes"
-                        password = ""
-                        validate()
-                    }
-            )
+        HikariDataSource(
+            HikariConfig().apply {
+                driverClassName = "org.postgresql.Driver"
+                jdbcUrl = "jdbc:postgresql://localhost/jamhughes"
+                username = "jamhughes"
+                password = ""
+                validate()
+            }
+        )
     )
 
     RootHandler().routes().asServer(Jetty(args.port)).start().block()
