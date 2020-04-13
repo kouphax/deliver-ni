@@ -58,7 +58,7 @@ object Filters {
         }
     }
 
-    val HandleLensFailure = ServerFilters.CatchLensFailure { failure: LensFailure ->
+    val HandleValidationFailure = ServerFilters.CatchLensFailure { failure: LensFailure ->
         logger.error { failure }
         Response(UNPROCESSABLE_ENTITY)
     }

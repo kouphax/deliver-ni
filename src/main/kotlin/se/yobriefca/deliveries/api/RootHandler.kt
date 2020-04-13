@@ -13,7 +13,7 @@ class RootHandler(private val service: DeliveriesService = DatabaseDeliveriesSer
             .then(Filters.Cors)
             .then(Filters.Handle404)
             .then(Filters.Handle5XX)
-            .then(Filters.HandleLensFailure)
+            .then(Filters.HandleValidationFailure)
             .then(
                 routes(
                     "/categories" bind CategoriesHandler(service).routes(),
