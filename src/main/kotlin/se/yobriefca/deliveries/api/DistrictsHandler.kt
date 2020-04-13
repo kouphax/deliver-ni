@@ -14,7 +14,7 @@ import se.yobriefca.deliveries.service.DeliveriesService
 
 class DistrictsHandler(private val service: DeliveriesService) : Router {
 
-    val district = Path.fixed("district")
+    private val district = Path.fixed("district")
 
     override fun routes(): RoutingHttpHandler =
         routes(

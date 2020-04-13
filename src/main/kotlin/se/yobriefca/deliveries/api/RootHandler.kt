@@ -10,9 +10,9 @@ import se.yobriefca.deliveries.service.DeliveriesService
 class RootHandler(private val service: DeliveriesService = DatabaseDeliveriesService()) : Router {
     override fun routes() =
         Filters.Tracing
-            .then(Filters.Handle5XX)
-            .then(Filters.Handle404)
             .then(Filters.Cors)
+            .then(Filters.Handle404)
+            .then(Filters.Handle5XX)
             .then(Filters.HandleLensFailure)
             .then(
                 routes(

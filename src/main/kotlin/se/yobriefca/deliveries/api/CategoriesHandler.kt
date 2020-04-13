@@ -15,7 +15,7 @@ import se.yobriefca.deliveries.service.DeliveriesService
 
 class CategoriesHandler(private val service: DeliveriesService) : Router {
 
-    val cid = Path.fixed("cid")
+    private val cid = Path.fixed("cid")
 
     override fun routes(): RoutingHttpHandler =
         routes(
