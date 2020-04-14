@@ -4,14 +4,14 @@ import './App.css';
 
 function App() {
 
-  fetch('/api/places')
+  fetch('/api/categories')
     .then((response) => {
       return response.json();
     })
     .then((data) => {
       console.log(data);
     });
-    
+
   return (
     <div className="App">
       <header className="App-header">

@@ -76,12 +76,24 @@ tasks {
     }
 
     register<Exec>("buildClient") {
+        group = "client"
         workingDir("./client")
         commandLine("npm", "run", "build")
     }
 
+    register<Copy>("copyClient") {
+        group = "client"
+        from("./client/build")
+        into("src/main/resources/public")
+    }
+
+    register<GradleBuild>("installClient") {
+        group = "client"
+        dependsOn("buildClient", "copyClient")
+    }
+
     installDist {
-        dependsOn("buildClient")
+        dependsOn("installClient")
     }
 
     register<Task>("stage") {

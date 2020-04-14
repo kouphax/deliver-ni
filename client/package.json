@@ -18,7 +18,7 @@
   "proxy": "http://localhost:5000",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && rm -rf ../src/main/resources/public && mv ./build ../src/main/resources/public",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
