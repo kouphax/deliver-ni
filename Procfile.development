@@ -1,0 +1,2 @@
+server: ./gradlew run
+client: cd client && npm start

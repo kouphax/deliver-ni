@@ -25,14 +25,14 @@ internal class RootHandlerSpec {
 
     @Test
     fun lens_failure_results_in_422() {
-        val response = handler.routes()(Request(Method.GET, "/places").query("district", "NO"))
+        val response = handler.routes()(Request(Method.GET, "/api/places").query("district", "NO"))
         assertThat(response, hasStatus(UNPROCESSABLE_ENTITY))
     }
 
     @Test
     fun general_failure_results_in_500() {
         every { service.places(any(), any()) } throws RuntimeException("TODO")
-        val response = handler.routes()(Request(Method.GET, "/places"))
+        val response = handler.routes()(Request(Method.GET, "/api/places"))
         assertThat(response, hasStatus(INTERNAL_SERVER_ERROR))
     }
 
@@ -40,7 +40,7 @@ internal class RootHandlerSpec {
     fun happy_path_sets_up_everything_and_returns_results() {
         val placesList = listOf(Place(1, "name", Position(1f, 2f)))
         every { service.places(any(), any()) } returns placesList
-        val response = handler.routes()(Request(Method.GET, "/places"))
+        val response = handler.routes()(Request(Method.GET, "/api/places"))
         assertThat(response, hasStatus(OK))
         assertThat(response, hasHeader("access-control-allow-origin", "*"))
         assertThat(response, hasHeader("access-control-allow-headers", "Content-Type"))

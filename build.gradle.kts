@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 
 val spek_version = "2.0.10"
 val kotlin_version = "1.3.70"
@@ -57,22 +57,34 @@ application {
     mainClassName = "se.yobriefca.deliveries.api.AppKt"
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
-}
-
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
-}
-
 tasks {
-    val stage by creating {
-        dependsOn("installDist")
+
+    test {
+        useJUnitPlatform()
+    }
+
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+
+    register<Exec>("buildClient") {
+        workingDir("./client")
+        commandLine("npm", "run", "build")
+    }
+
+    installDist {
+        dependsOn("buildClient")
+    }
+
+    register<Task>("stage") {
+        dependsOn(installDist)
     }
 }
