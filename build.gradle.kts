@@ -60,6 +60,8 @@ application {
 
 node {
     version = "13.3.0"
+    workDir = file("client")
+    npmWorkDir = file("client")
 }
 
 tasks {
@@ -81,46 +83,46 @@ tasks {
     }
 
     // required for heroku mostly
-    register<NpmTask>("testClient") {
+
+    val prepareClient by registering(NpmTask::class) {
+        group = "client"
+        setWorkingDir("client")
+        setArgs(listOf("install"))
+    }
+
+    val testClient by registering(NpmTask::class) {
         group = "client"
         setWorkingDir("client")
         setEnvironment(mapOf("CI" to "true"))
         setArgs(listOf("test"))
+        mustRunAfter(prepareClient)
     }
 
-    register<NpmTask>("buildClient") {
+    val buildClient by registering(NpmTask::class) {
         group = "client"
         setWorkingDir(file("client"))
         setArgs(listOf("run", "build"))
+        shouldRunAfter(testClient)
     }
 
-    register<Copy>("copyClient") {
+    val copyClient by registering(Copy::class) {
         group = "client"
         from("./client/build")
         into("src/main/resources/public")
+        mustRunAfter(buildClient)
     }
 
-    register<NpmTask>("prepareClient") {
+    val installClient by registering {
         group = "client"
-        setWorkingDir(file("client"))
-        setArgs(listOf("install"))
+        dependsOn(prepareClient, testClient, buildClient, copyClient)
     }
 
-    register<GradleBuild>("installClient") {
-        group = "client"
-        dependsOn("testClient", "buildClient", "copyClient")
+    assemble {
+        dependsOn(installClient)
     }
 
-    installDist {
-        dependsOn("installClient")
-    }
-
-    register<GradleBuild>("stage") {
+    register("stage") {
         group = "heroku"
-        dependsOn(
-            "prepareClient",
-            "installClient",
-            installDist
-        )
+        dependsOn(installDist)
     }
 }
