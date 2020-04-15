@@ -1,4 +1,3 @@
-import com.moowork.gradle.node.npm.NpmTask
 
 val spek_version = "2.0.10"
 val kotlin_version = "1.3.70"
@@ -7,7 +6,6 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.70"
     id("org.flywaydb.flyway") version "6.3.3"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
-    id("com.moowork.node") version "1.3.1"
     application
 }
 
@@ -58,12 +56,6 @@ application {
     mainClassName = "se.yobriefca.deliveries.api.AppKt"
 }
 
-node {
-    version = "13.3.0"
-    workDir = file("client")
-    npmWorkDir = file("client")
-}
-
 tasks {
 
     test {
@@ -82,26 +74,25 @@ tasks {
         }
     }
 
-    // required for heroku mostly
-
-    val prepareClient by registering(NpmTask::class) {
+    val prepareClient by registering(Exec::class) {
         group = "client"
-        setWorkingDir("client")
-        setArgs(listOf("install"))
+        workingDir("./client")
+        environment("CI", "true")
+        commandLine("npm", "install")
     }
 
-    val testClient by registering(NpmTask::class) {
+    val testClient by registering(Exec::class) {
         group = "client"
-        setWorkingDir("client")
-        setEnvironment(mapOf("CI" to "true"))
-        setArgs(listOf("test"))
+        workingDir("./client")
+        environment("CI", "true")
+        commandLine("npm", "test")
         mustRunAfter(prepareClient)
     }
 
-    val buildClient by registering(NpmTask::class) {
+    val buildClient by registering(Exec::class) {
         group = "client"
-        setWorkingDir(file("client"))
-        setArgs(listOf("run", "build"))
+        workingDir("./client")
+        commandLine("npm", "run", "build")
         shouldRunAfter(testClient)
     }
 
@@ -117,10 +108,14 @@ tasks {
         dependsOn(prepareClient, testClient, buildClient, copyClient)
     }
 
+    // this runs on travis
     assemble {
-        dependsOn(installClient)
+        group = "travis"
+        dependsOn(test, installClient)
+        mustRunAfter(test)
     }
 
+    // this runs on heroku
     register("stage") {
         group = "heroku"
         dependsOn(installDist)
