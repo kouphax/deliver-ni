@@ -1,4 +1,3 @@
-
 val spek_version = "2.0.10"
 val kotlin_version = "1.3.70"
 
@@ -16,9 +15,7 @@ buildscript {
 }
 
 flyway {
-    url = "jdbc:postgresql://localhost/jamhughes"
-    user = "jamhughes"
-    password = ""
+    url = System.getenv("JDBC_DATABASE_URL") ?: "jdbc:postgresql://localhost/jamhughes?user=jamhughes"
 }
 
 java {
@@ -105,7 +102,12 @@ tasks {
 
     val installClient by registering {
         group = "client"
-        dependsOn(prepareClient, testClient, buildClient, copyClient)
+        dependsOn(
+            prepareClient,
+            testClient,
+            buildClient,
+            copyClient
+        )
     }
 
     // this runs on travis

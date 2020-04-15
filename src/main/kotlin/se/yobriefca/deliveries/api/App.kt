@@ -17,9 +17,7 @@ fun main(args: Array<String>) {
         HikariDataSource(
             HikariConfig().apply {
                 driverClassName = "org.postgresql.Driver"
-                jdbcUrl = "jdbc:postgresql://localhost/jamhughes"
-                username = "jamhughes"
-                password = ""
+                jdbcUrl = System.getenv("JDBC_DATABASE_URL") ?: "jdbc:postgresql://localhost/jamhughes?user=jamhughes"
                 validate()
             }
         )
