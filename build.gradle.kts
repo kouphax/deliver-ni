@@ -1,4 +1,4 @@
-
+import com.moowork.gradle.node.npm.NpmTask
 
 val spek_version = "2.0.10"
 val kotlin_version = "1.3.70"
@@ -7,6 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.70"
     id("org.flywaydb.flyway") version "6.3.3"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    id("com.moowork.node") version "1.3.1"
     application
 }
 
@@ -57,6 +58,10 @@ application {
     mainClassName = "se.yobriefca.deliveries.api.AppKt"
 }
 
+node {
+    version = "13.3.0"
+}
+
 tasks {
 
     test {
@@ -75,10 +80,18 @@ tasks {
         }
     }
 
-    register<Exec>("buildClient") {
+    // required for heroku mostly
+    register<NpmTask>("testClient") {
         group = "client"
-        workingDir("./client")
-        commandLine("npm", "run", "build")
+        setWorkingDir("client")
+        setEnvironment(mapOf("CI" to "true"))
+        setArgs(listOf("test"))
+    }
+
+    register<NpmTask>("buildClient") {
+        group = "client"
+        setWorkingDir(file("client"))
+        setArgs(listOf("run", "build"))
     }
 
     register<Copy>("copyClient") {
@@ -87,16 +100,27 @@ tasks {
         into("src/main/resources/public")
     }
 
+    register<NpmTask>("prepareClient") {
+        group = "client"
+        setWorkingDir(file("client"))
+        setArgs(listOf("install"))
+    }
+
     register<GradleBuild>("installClient") {
         group = "client"
-        dependsOn("buildClient", "copyClient")
+        dependsOn("testClient", "buildClient", "copyClient")
     }
 
     installDist {
         dependsOn("installClient")
     }
 
-    register<Task>("stage") {
-        dependsOn(installDist)
+    register<GradleBuild>("stage") {
+        group = "heroku"
+        dependsOn(
+            "prepareClient",
+            "installClient",
+            installDist
+        )
     }
 }
