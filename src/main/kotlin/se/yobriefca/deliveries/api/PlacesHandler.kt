@@ -13,8 +13,8 @@ import se.yobriefca.deliveries.service.DeliveriesService
 
 class PlacesHandler(private val service: DeliveriesService) : Router {
 
-    private val district = Query.regex("^(BT\\d{1,2})$").optional("district")
-    private val category = Query.optional("category")
+    private val district = Query.regex("^(BT\\d{1,2})$").multi.optional("district")
+    private val category = Query.multi.optional("category")
 
     override fun routes(): RoutingHttpHandler =
         routes(

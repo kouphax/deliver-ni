@@ -27,7 +27,7 @@ class CategoriesHandler(private val service: DeliveriesService) : Router {
             "/{cid}" bind GET to { request ->
                 val cid = cid(request)
                 Response(OK).with(
-                    placesListBody of service.places(cid = cid)
+                    placesListBody of service.places(cid = listOf(cid))
                 )
             })
 }

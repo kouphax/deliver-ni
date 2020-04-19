@@ -1,24 +1,15 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Layout from './layouts/Layout';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 import 'react-datetime/css/react-datetime.css';
 import 'react-image-lightbox/style.css';
 import NavbarVertical from "./components/navbar/NavbarVertical";
-import Main from "./Main";
 import useFetch from "./hooks/useFetch";
-import ProductProvider from "./components/e-commerce/ProductProvider";
 import NavbarTop from "./components/navbar/NavbarTop";
-import DashboardAlt from "./components/dashboard-alt/DashboardAlt";
 import Footer from "./components/footer/Footer";
-import Alert from "reactstrap/lib/Alert";
-import GoogleMap from "./components/map/GoogleMap";
-import {Marker, Map, GoogleApiWrapper} from 'google-maps-react';
-import {Card, CardBody, Col} from "reactstrap";
-import FalconCardHeader from "./components/common/FalconCardHeader";
-import FalconEditor from "./components/common/FalconEditor";
-import FalconPlyr from "./components/common/FalconPlyr";
+import {GoogleApiWrapper, Map, Marker} from 'google-maps-react';
+import {Card, CardBody} from "reactstrap";
 import googleMapStyles from "./helpers/googleMapStyles";
 import AppContext from "./context/Context";
 
@@ -83,22 +74,19 @@ import AppContext from "./context/Context";
 //     }
 // ]
 
+const toQuery = ({categories, districts}) =>
+    [].concat(
+        ...categories.map(c => `category=${c}`),
+        ...districts.map(d => `district=${d}`)
+    ).join("&")
 
+const MapContainer = ({google}) => {
 
-const toQuery = ({categories, districts}) => {
-    return [
-        categories.length > 0 ? `category=${categories[0]}` : null,
-        districts.length > 0 ? `district=${districts[0]}` : null
-    ].filter(Boolean).join("&")
-}
-
-const MapContainer = ({ google }) => {
-
-    const { searchParams } = useContext(AppContext)
+    const {searchParams} = useContext(AppContext)
 
     const query = toQuery(searchParams)
     const uri = `/api/places?${query}`
-    const { data: places } = useFetch({ uri })
+    const {data: places} = useFetch({uri})
 
     console.log(searchParams)
     console.log(places)
@@ -106,7 +94,7 @@ const MapContainer = ({ google }) => {
         <Map
             styles={googleMapStyles['Default']}
             google={google}
-            initialCenter={{ lat: 54.5890594, lng: -6.9055877 }}
+            initialCenter={{lat: 54.5890594, lng: -6.9055877}}
             zoom={9}
             streetViewControl={false}
             mapTypeControl={false}
@@ -124,8 +112,8 @@ const MapContainer = ({ google }) => {
 };
 
 const GMap = GoogleApiWrapper({
-    apiKey: "AIzaSyC_cdAqfdW_VAMi6O8xWPdh44lM2T9h58Y",
-    //apiKey: "",
+    //apiKey: "AIzaSyC_cdAqfdW_VAMi6O8xWPdh44lM2T9h58Y",
+    apiKey: "",
     version: "3.38"
 })(MapContainer);
 
@@ -135,27 +123,28 @@ const Dashboard = () => {
         <Card className="mb-3">
             <CardBody>
                 <div className="position-relative min-vh-50 rounded-soft">
-                <GMap />
+                    <GMap/>
                 </div>
             </CardBody>
         </Card>
     )
 }
+
 const App = () => {
-  return (
-    <Router basename={process.env.PUBLIC_URL}>
-        <div className='container'>
-            <NavbarVertical />
+    return (
+        <Router basename={process.env.PUBLIC_URL}>
+            <div className='container'>
+                <NavbarVertical/>
                 <div className="content">
-                    <NavbarTop />
+                    <NavbarTop/>
                     <Switch>
-                        <Route path="/" exact component={Dashboard} />
+                        <Route path="/" exact component={Dashboard}/>
                     </Switch>
-                    <Footer />
+                    <Footer/>
                 </div>
-        </div>
-    </Router>
-  );
+            </div>
+        </Router>
+    );
 };
 
 export default App;

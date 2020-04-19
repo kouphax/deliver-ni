@@ -26,7 +26,7 @@ class DistrictsHandler(private val service: DeliveriesService) : Router {
             "/{district}" bind GET to { request ->
                 val did = district(request)
                 Response(OK).with(
-                    placesListBody of service.places(did = did)
+                    placesListBody of service.places(did = listOf(did))
                 )
             })
 }

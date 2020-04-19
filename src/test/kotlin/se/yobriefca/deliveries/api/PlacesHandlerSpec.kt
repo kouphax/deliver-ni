@@ -37,7 +37,7 @@ internal class PlacesHandlerSpec {
     fun PlacesHandler_will_search_for_district_when_asked() {
         val response = handler.routes()(Request(GET, "/")
             .query("district", "BT8"))
-        verify { service.places(did = "BT8") }
+        verify { service.places(did = listOf("BT8")) }
         assertThat(response, hasStatus(OK))
     }
 
@@ -53,7 +53,7 @@ internal class PlacesHandlerSpec {
     fun PlacesHandler_will_search_for_category_when_asked() {
         val response = handler.routes()(Request(GET, "/")
             .query("category", "bakery"))
-        verify { service.places(cid = "bakery") }
+        verify { service.places(cid = listOf("bakery")) }
         assertThat(response, hasStatus(OK))
     }
 
@@ -62,7 +62,18 @@ internal class PlacesHandlerSpec {
         val response = handler.routes()(Request(GET, "/")
             .query("category", "bakery")
             .query("district", "BT8"))
-        verify { service.places("BT8", "bakery") }
+        verify { service.places(listOf("BT8"), listOf("bakery")) }
+        assertThat(response, hasStatus(OK))
+    }
+
+    @Test
+    fun PlacesHandler_will_search_for_many_categories_and_distrcits_when_asked() {
+        val response = handler.routes()(Request(GET, "/")
+            .query("category", "bakery")
+            .query("category", "groceries")
+            .query("district", "BT8")
+            .query("district", "BT9"))
+        verify { service.places(listOf("BT8", "BT9"), listOf("bakery", "groceries")) }
         assertThat(response, hasStatus(OK))
     }
 }

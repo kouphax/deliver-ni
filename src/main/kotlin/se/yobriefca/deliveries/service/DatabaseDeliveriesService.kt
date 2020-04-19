@@ -45,25 +45,25 @@ class DatabaseDeliveriesService : DeliveriesService {
         }
     }
 
-    override fun places(did: String?, cid: String?): List<Place> =
+    override fun places(did: List<String>?, cid: List<String>?): List<Place> =
         transaction {
             if (did != null && cid != null) {
                 (Schema.Places innerJoin Schema.PlacesDeliveryAreas innerJoin Schema.PlacesCategories)
                     .select {
-                        (Schema.PlacesCategories.cid eq cid) and
-                            (Schema.PlacesDeliveryAreas.area eq did)
+                        (Schema.PlacesCategories.cid inList cid) and
+                            (Schema.PlacesDeliveryAreas.area inList did)
                     }
                     .map { it.asPlace }
             } else if (did != null && cid == null) {
                 (Schema.Places innerJoin Schema.PlacesDeliveryAreas)
                     .select {
-                        Schema.PlacesDeliveryAreas.area eq did
+                        Schema.PlacesDeliveryAreas.area inList did
                     }
                     .map { it.asPlace }
             } else if (did == null && cid != null) {
                 (Schema.Places innerJoin Schema.PlacesCategories)
                     .select {
-                        Schema.PlacesCategories.cid eq cid
+                        Schema.PlacesCategories.cid inList cid
                     }
                     .map { it.asPlace }
             } else {
