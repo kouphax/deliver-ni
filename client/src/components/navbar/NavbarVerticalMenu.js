@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { Collapse, Nav, NavItem, NavLink as BootstrapNavLink } from 'reactstrap';
-import { NavLink, withRouter } from 'react-router-dom';
+import {Collapse, Nav, NavItem, NavLink as BootstrapNavLink} from 'reactstrap';
+import {withRouter} from 'react-router-dom';
 import NavbarVerticalMenuItem from './NavbarVerticalMenuItem';
-import { useContext } from 'react';
 import AppContext from '../../context/Context';
 
 const NavbarVerticalMenu = ({ routes, location }) => {
-  const [openedIndex, setOpenedIndex] = useState(null);
+  const [openedIndex, setOpenedIndex] = useState([]);
   const { setShowBurgerMenu } = useContext(AppContext);
   useEffect(() => {
-    let openedDropdown = null;
+    let openedDropdown = [];
     routes.forEach((route, index) => {
-      if (location.pathname.indexOf(route.to) === 0) openedDropdown = index;
+      if (location.pathname.indexOf(route.to) === 0) openedDropdown.push(index);
     });
 
     setOpenedIndex(openedDropdown);
@@ -21,16 +20,20 @@ const NavbarVerticalMenu = ({ routes, location }) => {
 
   const toggleOpened = (e, index) => {
     e.preventDefault();
-    return setOpenedIndex(openedIndex === index ? null : index);
+    if(openedIndex.indexOf(index) === -1) {
+      setOpenedIndex([...openedIndex, index])
+    } else {
+      setOpenedIndex(openedIndex.filter(x => x !== index))
+    }
   };
 
   return routes.map((route, index) => {
     if (!route.children) {
       return (
         <NavItem key={index}>
-          <NavLink className="nav-link" {...route} onClick={() => setShowBurgerMenu(false)}>
+          <div className="nav-link" >
             <NavbarVerticalMenuItem route={route} />
-          </NavLink>
+          </div>
         </NavItem>
       );
     }
@@ -40,11 +43,11 @@ const NavbarVerticalMenu = ({ routes, location }) => {
         <BootstrapNavLink
           onClick={e => toggleOpened(e, index)}
           className="dropdown-indicator cursor-pointer"
-          aria-expanded={openedIndex === index}
+          aria-expanded={openedIndex.indexOf(index) !== -1}
         >
           <NavbarVerticalMenuItem route={route} />
         </BootstrapNavLink>
-        <Collapse isOpen={openedIndex === index}>
+        <Collapse isOpen={openedIndex.indexOf(index) !== -1}>
           <Nav>
             <NavbarVerticalMenu routes={route.children} location={location} />
           </Nav>

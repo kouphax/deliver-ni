@@ -102,7 +102,10 @@ import {
   faCheckSquare,
   faTools,
   faCheckDouble,
-  faSmileBeam
+  faSmileBeam,
+    faClipboardList,
+  faMapMarkedAlt,
+    faTruck
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -281,5 +284,9 @@ library.add(
   farQuestionCircle,
   farDizzy,
   farLaughBeam,
-  farSmileBeam
+  farSmileBeam,
+
+    faClipboardList,
+    faMapMarkedAlt,
+    faTruck
 );

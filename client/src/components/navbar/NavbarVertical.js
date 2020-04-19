@@ -8,17 +8,37 @@ import AppContext from '../../context/Context';
 import Flex from '../common/Flex';
 import routes from '../../routes';
 import { navbarBreakPoint } from '../../config';
+import useFetch from "../../hooks/useFetch";
+import SearchBox from "./SearchBox";
+
+export const categoriesRoutes = {
+  name: 'Categories',
+  to: '/categories',
+  exact: true,
+  icon: 'clipboard-list',
+  uri: '/api/categories'
+};
+
+export const districtsRoutes = {
+  name: 'Districts',
+  to: '/districts',
+  exact: true,
+  icon: 'map-marked-alt',
+  uri: '/api/districts'
+};
+
+export const homeRoute = {
+  name: 'Home',
+  to: '/',
+  exact: true,
+  icon: 'home'
+};
+
 
 const NavbarVertical = () => {
   const navBarRef = useRef(null);
 
   const {
-    isFluid,
-    setIsFluid,
-    isRTL,
-    setIsRTL,
-    isDark,
-    setIsDark,
     showBurgerMenu,
     isNavbarVerticalCollapsed,
     setIsNavbarVerticalCollapsed
@@ -35,6 +55,12 @@ const NavbarVertical = () => {
       HTMLClassList.remove('navbar-vertical-collapsed-hover');
     };
   }, [isNavbarVerticalCollapsed, HTMLClassList]);
+
+  const { data: categories } = useFetch(categoriesRoutes)
+  const categoriesMenu = { ...categoriesRoutes, children: categories.map(({ id, name }) => ({ to: `/categories/${id}`, name, facet: 'categories', id}))}
+
+  const { data: districts } = useFetch(districtsRoutes)
+  const districtsMenu = { ...districtsRoutes, children: districts.map((name) => ({ to: `/districts/${name}`, name, facet: 'districts', id: name}))}
 
   //Control mouseEnter event
   let time = null;
@@ -69,7 +95,6 @@ const NavbarVertical = () => {
       >
         <Scrollbar
           style={{ height: 'calc(100vh - 77px)', display: 'block' }}
-          rtl={isRTL}
           trackYProps={{
             renderer(props) {
               const { elementRef, ...restProps } = props;
@@ -78,52 +103,8 @@ const NavbarVertical = () => {
           }}
         >
           <Nav navbar vertical>
-            <NavbarVerticalMenu routes={routes} />
+            <NavbarVerticalMenu routes={[homeRoute, categoriesMenu, districtsMenu]} />
           </Nav>
-          <div className={`settings px-3 px-${navbarBreakPoint}-0`}>
-            <hr className="border-300 my-3" />
-            <h6 className="text-uppercase fs--2 font-weight-semi-bold ls text-600">Settings</h6>
-            <div
-              className="bg-light border py-card rounded"
-              style={{ paddingLeft: '1.4375rem', paddingRight: '1.4375rem' }}
-            >
-              <CustomInput
-                type="checkbox"
-                id="dark"
-                name="dark"
-                label="Dark Mode"
-                checked={isDark}
-                onChange={({ target }) => setIsDark(target.checked)}
-              />
-              <CustomInput
-                type="checkbox"
-                id="rtl"
-                name="rtl"
-                label="RTL Layout"
-                checked={isRTL}
-                onChange={({ target }) => setIsRTL(target.checked)}
-              />
-              <CustomInput
-                type="checkbox"
-                id="fluid"
-                name="fluid"
-                label="Fluid Container"
-                checked={isFluid}
-                onChange={({ target }) => setIsFluid(target.checked)}
-              />
-            </div>
-            <Button
-              tag={'a'}
-              href="https://themes.getbootstrap.com/product/falcon-admin-dashboard-webapp-template-react/"
-              target="_blank"
-              color="primary"
-              size="sm"
-              block
-              className="my-3 btn-purchase"
-            >
-              Purchase
-            </Button>
-          </div>
         </Scrollbar>
       </Collapse>
     </Navbar>

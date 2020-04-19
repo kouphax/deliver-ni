@@ -8,8 +8,8 @@
 /*-----------------------------------------------
 |   Navbar vertical
 -----------------------------------------------*/
-$navbar-vertical-width: 12.625rem;
-$vartical-navbar-padding: 1.5rem;
+$navbar-vertical-width: 14rem;
+$vartical-navbar-padding: 2.5rem;
 
 .navbar-top {
   top: 0;
@@ -45,7 +45,7 @@ $vartical-navbar-padding: 1.5rem;
   -----------------------------------------------*/
   .navbar-nav {
     width: 100%;
-    font-size: 0.875rem;
+    font-size: 1.1rem;
     font-weight: $font-weight-medium;
 
     .nav-link {
@@ -68,12 +68,12 @@ $vartical-navbar-padding: 1.5rem;
     .nav-link-icon {
       width: $vartical-navbar-padding;
       min-width: $vartical-navbar-padding;
-      font-size: map_get($font-sizes, 0);
+      font-size: map_get($font-sizes, 0) * 1.6;
     }
 
     .nav {
       flex-flow: column nowrap;
-      font-size: 0.8125rem;
+      font-size: 1rem;
 
       .nav-item {
         .nav-link {
@@ -105,7 +105,7 @@ $vartical-navbar-padding: 1.5rem;
 }
 
 /*-----------------------------------------------
-|   Break 
+|   Break
 -----------------------------------------------*/
 
 $breaks: ('xxl', 'xl', 'lg', 'md', 'sm', 'xs');

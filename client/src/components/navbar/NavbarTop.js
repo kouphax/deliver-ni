@@ -11,7 +11,6 @@ import classNames from 'classnames';
 
 const NavbarTop = () => {
   const { showBurgerMenu, setShowBurgerMenu } = useContext(AppContext);
-  const { shoppingCart } = useContext(ProductContext);
 
   return (
     <Navbar light className="navbar-glass fs--1 font-weight-semi-bold row navbar-top sticky-kit" expand>
@@ -40,21 +39,11 @@ const NavbarTop = () => {
           <NavItem>
             <NavLink
               tag={Link}
-              to="/e-commerce/shopping-cart"
-              className={classNames('px-0', {
-                'notification-indicator notification-indicator-warning notification-indicator-fill': !!shoppingCart.length
-              })}
+              to="/"
             >
-              {!!shoppingCart.length && (
-                <span className="notification-indicator-number">
-                  {shoppingCart.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0)}
-                </span>
-              )}
-              <FontAwesomeIcon icon="shopping-cart" transform="shrink-7" className="fs-4" />
+                <FontAwesomeIcon icon="bell" transform="shrink-6" className="fs-4" />
             </NavLink>
           </NavItem>
-          <NotificationDropdown />
-          <ProfileDropdown />
         </Nav>
       </Collapse>
     </Navbar>

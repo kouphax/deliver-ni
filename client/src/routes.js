@@ -117,10 +117,10 @@ export const pageRoutes = {
 };
 
 export const chatRoutes = {
-  name: 'Chat',
+  name: 'Collection',
   to: '/chat',
   exact: true,
-  icon: 'comments'
+  icon: 'check-square'
 };
 
 export const emailRoutes = {
@@ -247,15 +247,15 @@ export const utilityRoutes = {
 };
 
 export default [
-  homeRoutes,
-  pageRoutes,
+   homeRoutes,
+  // pageRoutes,
   chatRoutes,
-  emailRoutes,
-  authenticationRoutes,
-  ECommerceRoutes,
-  componentRoutes,
-  utilityRoutes,
-  pluginRoutes,
-  documentationRoutes,
-  changelogRoutes
+  // emailRoutes,
+  // authenticationRoutes,
+  // ECommerceRoutes,
+  // componentRoutes,
+  // utilityRoutes,
+  // pluginRoutes,
+  // documentationRoutes,
+  // changelogRoutes
 ];

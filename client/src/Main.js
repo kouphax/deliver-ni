@@ -14,6 +14,10 @@ const Main = props => {
   const [currency, setCurrency] = useState('$');
   const [showBurgerMenu, setShowBurgerMenu] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [searchParams, setSearchParams] = useState({
+    categories:[],
+    districts:[]
+  })
 
   const value = {
     isFluid,
@@ -27,7 +31,9 @@ const Main = props => {
     isNavbarVerticalCollapsed,
     setIsNavbarVerticalCollapsed,
     currency,
-    setCurrency
+    setCurrency,
+    searchParams,
+    setSearchParams
   };
 
   const setStylesheetMode = mode => {

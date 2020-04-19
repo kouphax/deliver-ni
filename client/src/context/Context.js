@@ -5,8 +5,12 @@ const AppContext = createContext({
   isRTL: false,
   isDark: false,
   showBurgerMenu: false, // controls showing vertical nav on mobile
-  currency: '$',
-  isNavbarVerticalCollapsed: false
+  currency: '£',
+  isNavbarVerticalCollapsed: false,
+  searchParams: {
+    categories:[],
+    districts:[]
+  }
 });
 
 export const EmailContext = createContext({ emails: [] });

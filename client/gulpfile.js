@@ -74,4 +74,4 @@ gulp.task('watch', () => {
   gulp.watch('src/assets/scss/**/*.scss', gulp.parallel('scss', 'scss:rtl'));
 });
 
-gulp.task('default', gulp.parallel('scss', 'scss:rtl', 'watch', 'scss:dark'));
+gulp.task('default', gulp.parallel('scss', 'scss:rtl', 'scss:dark'));
