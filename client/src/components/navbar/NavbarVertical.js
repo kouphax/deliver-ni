@@ -1,15 +1,13 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { Button, Collapse, CustomInput, Nav, Navbar } from 'reactstrap';
+import React, {useContext, useEffect, useRef} from 'react';
+import {Collapse, Nav, Navbar} from 'reactstrap';
 import Scrollbar from 'react-scrollbars-custom';
 import Logo from './Logo';
 import NavbarVerticalMenu from './NavbarVerticalMenu';
 import ToggleButton from './ToggleButton';
 import AppContext from '../../context/Context';
 import Flex from '../common/Flex';
-import routes from '../../routes';
-import { navbarBreakPoint } from '../../config';
+import {navbarBreakPoint} from '../../config';
 import useFetch from "../../hooks/useFetch";
-import SearchBox from "./SearchBox";
 
 export const categoriesRoutes = {
   name: 'Categories',

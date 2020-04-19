@@ -15,6 +15,7 @@ buildscript {
 }
 
 flyway {
+    println(System.getenv("JDBC_DATABASE_URL"))
     url = System.getenv("JDBC_DATABASE_URL") ?: "jdbc:postgresql://localhost/jamhughes?user=jamhughes"
 }
 

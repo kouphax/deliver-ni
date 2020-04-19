@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {Badge, CardBody, CustomInput, Label} from 'reactstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Badge, CustomInput, Label} from 'reactstrap';
 import Flex from '../common/Flex';
 import AppContext from "../../context/Context";
 

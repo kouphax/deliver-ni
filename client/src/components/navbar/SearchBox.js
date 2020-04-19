@@ -1,7 +1,6 @@
 import React from 'react';
-import { Form, Input } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {Select} from "react-select";
+import {Form, Input} from 'reactstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 const SearchBox = () => (
   <Form inline className="search-box">

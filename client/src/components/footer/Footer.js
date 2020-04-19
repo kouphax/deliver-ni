@@ -1,6 +1,5 @@
 import React from 'react';
-import { Col, Row } from 'reactstrap';
-import { version } from '../../config';
+import {Col, Row} from 'reactstrap';
 
 const Footer = () => (
   <footer>
